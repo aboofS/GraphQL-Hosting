@@ -459,8 +459,9 @@ async function init() {
 
     // Round down if it's a number
     if (typeof auditRatio === "number") {
-      auditRatio = Math.floor(auditRatio * 10) / 10;
-    }
+  auditRatio = (Math.round(auditRatio * 100) / 100).toFixed(2);
+}
+
 
     document.getElementById("audit-ratio").innerText = auditRatio;
 
