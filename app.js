@@ -356,9 +356,10 @@ function renderUserAudits(audits) {
   const height = parseInt(svg.getAttribute("height"));
   const radius = Math.min(width, height) / 3;
   const cx = width / 2;
-  const cy = height / 2 - 10; // shift upward to leave room for ratio
+  const cy = height / 2 - 10;
 
   const total = audits.given + audits.taken;
+
   if (total === 0) {
     const msg = document.createElementNS("http://www.w3.org/2000/svg", "text");
     msg.setAttribute("x", width / 2);
@@ -376,6 +377,8 @@ function renderUserAudits(audits) {
 
   let startAngle = 0;
   slices.forEach(slice => {
+    if (slice.value === 0) return; // skip drawing empty slices
+
     const sliceAngle = (slice.value / total) * 2 * Math.PI;
     const x1 = cx + radius * Math.cos(startAngle);
     const y1 = cy + radius * Math.sin(startAngle);
@@ -395,36 +398,25 @@ function renderUserAudits(audits) {
     path.setAttribute("fill", slice.color);
     svg.appendChild(path);
 
-    // Label on slice
+    // Label (count + %)
     const midAngle = startAngle + sliceAngle / 2;
     const labelX = cx + (radius + 30) * Math.cos(midAngle);
     const labelY = cy + (radius + 30) * Math.sin(midAngle);
 
+    const percent = ((slice.value / total) * 100).toFixed(1);
     const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
     text.setAttribute("x", labelX);
     text.setAttribute("y", labelY);
     text.setAttribute("text-anchor", "middle");
     text.setAttribute("font-size", "12px");
-    text.textContent = `${slice.label}: ${slice.value}`;
+    text.textContent = `${slice.label}: ${slice.value} (${percent}%)`;
     svg.appendChild(text);
 
     startAngle += sliceAngle;
   });
 
   // Ratio text under chart
- function calculateAuditRatio(given, taken) {
-  if (given === 0 && taken === 0) {
-    return "0.0"; // no audits at all
-  }
-  if (taken === 0) {
-    return "∞"; // infinite ratio (only given audits)
-  }
-  if (given === 0) {
-    return "0.0"; // only taken audits
-  }
-  return (Math.round((given / taken) * 10) / 10).toFixed(1);
-}
-
+  const ratio = calculateAuditRatio(audits.given, audits.taken);
   const ratioText = document.createElementNS("http://www.w3.org/2000/svg", "text");
   ratioText.setAttribute("x", width / 2);
   ratioText.setAttribute("y", height - 10);
@@ -433,6 +425,7 @@ function renderUserAudits(audits) {
   ratioText.textContent = `Audit Ratio (Given/Taken): ${ratio}`;
   svg.appendChild(ratioText);
 }
+
 
 
 // --- Main Flow ---
