@@ -220,7 +220,7 @@ function formatXp(value) {
     return (value / 1_000_000).toFixed(2) + "mb";
   }
   if (value >= 1_000) {
-    return (value / 1_000) + "kb";
+     return Math.round(value / 1_000) + "kb";
   }
   return value.toString();
 }
