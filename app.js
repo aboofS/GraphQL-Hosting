@@ -412,7 +412,19 @@ function renderUserAudits(audits) {
   });
 
   // Ratio text under chart
-  const ratio = audits.taken === 0 ? "∞" : (audits.given / audits.taken).toFixed(2);
+ function calculateAuditRatio(given, taken) {
+  if (given === 0 && taken === 0) {
+    return "0.0"; // no audits at all
+  }
+  if (taken === 0) {
+    return "∞"; // infinite ratio (only given audits)
+  }
+  if (given === 0) {
+    return "0.0"; // only taken audits
+  }
+  return (Math.round((given / taken) * 10) / 10).toFixed(1);
+}
+
   const ratioText = document.createElementNS("http://www.w3.org/2000/svg", "text");
   ratioText.setAttribute("x", width / 2);
   ratioText.setAttribute("y", height - 10);
@@ -455,8 +467,14 @@ async function init() {
 
 
     // Audit ratio (from API)
-    const auditRatioData = await fetchAuditRatio();
-    let auditRatio = auditRatioData.user[0].auditRatio;
+   // Audit ratio (from API)
+const auditRatioData = await fetchAuditRatio();
+let auditRatio = auditRatioData.user[0].auditRatio;
+
+// If we want to override API value with calculated:
+auditRatio = calculateAuditRatio(audits.given, audits.taken);
+
+document.getElementById("audit-ratio").innerText = auditRatio;
 
     // Round down if it's a number
     if (typeof auditRatio === "number") {
