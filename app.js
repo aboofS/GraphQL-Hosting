@@ -1,3 +1,4 @@
+
 const API_URL = "https://learn.reboot01.com/api/graphql-engine/v1/graphql";
 const LOGIN_URL = "https://learn.reboot01.com/api/auth/signin";
 
@@ -356,10 +357,9 @@ function renderUserAudits(audits) {
   const height = parseInt(svg.getAttribute("height"));
   const radius = Math.min(width, height) / 3;
   const cx = width / 2;
-  const cy = height / 2 - 10;
+  const cy = height / 2 - 10; // shift upward to leave room for ratio
 
   const total = audits.given + audits.taken;
-
   if (total === 0) {
     const msg = document.createElementNS("http://www.w3.org/2000/svg", "text");
     msg.setAttribute("x", width / 2);
@@ -377,8 +377,6 @@ function renderUserAudits(audits) {
 
   let startAngle = 0;
   slices.forEach(slice => {
-    if (slice.value === 0) return; // skip drawing empty slices
-
     const sliceAngle = (slice.value / total) * 2 * Math.PI;
     const x1 = cx + radius * Math.cos(startAngle);
     const y1 = cy + radius * Math.sin(startAngle);
@@ -398,25 +396,24 @@ function renderUserAudits(audits) {
     path.setAttribute("fill", slice.color);
     svg.appendChild(path);
 
-    // Label (count + %)
+    // Label on slice
     const midAngle = startAngle + sliceAngle / 2;
     const labelX = cx + (radius + 30) * Math.cos(midAngle);
     const labelY = cy + (radius + 30) * Math.sin(midAngle);
 
-    const percent = ((slice.value / total) * 100).toFixed(1);
     const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
     text.setAttribute("x", labelX);
     text.setAttribute("y", labelY);
     text.setAttribute("text-anchor", "middle");
     text.setAttribute("font-size", "12px");
-    text.textContent = `${slice.label}: ${slice.value} (${percent}%)`;
+    text.textContent = `${slice.label}: ${slice.value}`;
     svg.appendChild(text);
 
     startAngle += sliceAngle;
   });
 
   // Ratio text under chart
-  const ratio = calculateAuditRatio(audits.given, audits.taken);
+  const ratio = audits.taken === 0 ? "∞" : (audits.given / audits.taken).toFixed(2);
   const ratioText = document.createElementNS("http://www.w3.org/2000/svg", "text");
   ratioText.setAttribute("x", width / 2);
   ratioText.setAttribute("y", height - 10);
@@ -425,7 +422,6 @@ function renderUserAudits(audits) {
   ratioText.textContent = `Audit Ratio (Given/Taken): ${ratio}`;
   svg.appendChild(ratioText);
 }
-
 
 
 // --- Main Flow ---
@@ -460,14 +456,8 @@ async function init() {
 
 
     // Audit ratio (from API)
-   // Audit ratio (from API)
-const auditRatioData = await fetchAuditRatio();
-let auditRatio = auditRatioData.user[0].auditRatio;
-
-// If we want to override API value with calculated:
-auditRatio = calculateAuditRatio(audits.given, audits.taken);
-
-document.getElementById("audit-ratio").innerText = auditRatio;
+    const auditRatioData = await fetchAuditRatio();
+    let auditRatio = auditRatioData.user[0].auditRatio;
 
     // Round down if it's a number
     if (typeof auditRatio === "number") {
