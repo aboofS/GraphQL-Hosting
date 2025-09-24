@@ -412,8 +412,18 @@ function renderUserAudits(audits) {
     startAngle += sliceAngle;
   });
 
-  // Ratio text under chart
-  const ratio = audits.taken === 0 ? "∞" : (audits.given / audits.taken).toFixed(2);
+  // Ratio text under chart with safe cases
+  let ratio;
+  if (audits.given === 0 && audits.taken === 0) {
+    ratio = "0.0";
+  } else if (audits.taken === 0) {
+    ratio = "∞";
+  } else if (audits.given === 0) {
+    ratio = "0.0";
+  } else {
+    ratio = (Math.round((audits.given / audits.taken) * 10) / 10).toFixed(2);
+  }
+
   const ratioText = document.createElementNS("http://www.w3.org/2000/svg", "text");
   ratioText.setAttribute("x", width / 2);
   ratioText.setAttribute("y", height - 10);
@@ -422,6 +432,7 @@ function renderUserAudits(audits) {
   ratioText.textContent = `Audit Ratio (Given/Taken): ${ratio}`;
   svg.appendChild(ratioText);
 }
+
 
 
 // --- Main Flow ---
