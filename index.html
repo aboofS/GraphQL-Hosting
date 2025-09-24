@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>My Profile</h1>
+  </header>
+  <main>
+    <!-- Login Section -->
+    <div id="login-section" class="card">
+      <h2>Login</h2>
+      <form id="login-form">
+        <input type="text" id="username-input" placeholder="Username or Email" required>
+        <input type="password" id="password-input" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+
+    <!-- Profile Section -->
+    <div id="profile-section" class="card" style="display: none;">
+      <div class="card-header">
+        <h2>Welcome, <span id="username"></span></h2>
+        <button id="logout-btn">Logout</button>
+      </div>
+
+      <!-- Quick Info -->
+      <div id="quick-info">
+        <p><strong>Reboot Username:</strong> <span id="user-login"></span></p>
+        <p><strong>Email:</strong> <span id="user-email"></span></p>
+        <p><strong>First Name:</strong> <span id="user-firstname"></span></p>
+        <p><strong>Last Name:</strong> <span id="user-lastname"></span></p>
+        <p><strong>Total XP:</strong> <span id="total-xp"></span></p>
+        <p><strong>Audit Ratio:</strong> <span id="audit-ratio"></span></p>
+        <p><strong>Phone:</strong> <span id="user-phone"></span></p>
+        <p><strong>Join Date:</strong> <span id="user-join"></span></p>
+
+      </div>
+
+
+      <!-- Two-column layout -->
+      <div class="content-grid">
+        <div class="left-col">
+          <h3>XP gained in the last 5 months</h3>
+          <svg id="xp-graph" width="600" height="300"></svg>
+
+          <h3>Audits Done / Given This Month</h3>
+          <svg id="leaderboard-graph" width="600" height="300"></svg>
+        </div>
+
+        <div class="right-col">
+          <h3>Recent Projects</h3>
+          <ul id="recent-projects"></ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

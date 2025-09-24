@@ -1,0 +1,182 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* General */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f9;
+  color: #222;
+  line-height: 1.6;
+}
+
+header {
+  background: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+main {
+  padding: 1rem;
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* Cards */
+.card {
+  background: white;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#logout-btn {
+  background: #c62828;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+#logout-btn:hover {
+  background: #b71c1c;
+}
+
+/* Quick Info */
+#quick-info {
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+
+/* Grid Layout */
+.content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.left-col,
+.right-col {
+  background: #fafafa;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: auto;
+}
+
+input,
+button {
+  margin: 0.5rem 0;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+button {
+  background: #4CAF50;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+button:hover {
+  background: #45a049;
+}
+
+/* Graphs */
+svg {
+  display: block;
+  margin: 1rem auto;
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+svg text {
+  font-size: 12px;
+  fill: #333;
+}
+
+/* Recent Projects */
+#recent-projects {
+  list-style: none;
+  padding-left: 0;
+}
+
+#recent-projects li {
+  padding: 0.5rem;
+  margin: 0.3rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+#recent-projects li:last-child {
+  border-bottom: none;
+}
+
+#recent-projects li.pass {
+  color: #2e7d32;
+  /* green */
+}
+
+#recent-projects li.fail {
+  color: #c62828;
+  /* red */
+}
+
+#recent-projects li.progress {
+  color: #1565c0;
+  /* blue */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  main {
+    padding: 0.5rem;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  svg {
+    width: 100% !important;
+    height: auto;
+  }
+}
+
+#quick-info {
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 2rem;
+}
+
+#quick-info p {
+  margin: 0.3rem 0;
+}
+
+#recent-projects li:hover {
+  background: #f0f0f0;
+  cursor: default;
+}
