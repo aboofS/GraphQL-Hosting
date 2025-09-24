@@ -214,13 +214,13 @@ function groupXpLast5MonthsWithTotal(transactions) {
 
 function formatXp(value) {
   if (value >= 1_000_000_000) {
-    return (value / 1_000_000_000).toFixed(2) + "B";
+    return (value / 1_000_000_000).toFixed(2) + "gb";
   }
   if (value >= 1_000_000) {
-    return (value / 1_000_000).toFixed(2) + "M";
+    return (value / 1_000_000).toFixed(2) + "mb";
   }
   if (value >= 1_000) {
-    return (value / 1_000).toFixed(2) + "k";
+    return (value / 1_000) + "kb";
   }
   return value.toString();
 }
@@ -460,7 +460,7 @@ async function init() {
 
     // Round down if it's a number
     if (typeof auditRatio === "number") {
-  auditRatio = (Math.round(auditRatio * 100) / 100).toFixed(2);
+  auditRatio = (Math.round(auditRatio * 100) / 100).toFixed(1);
 }
 
 
