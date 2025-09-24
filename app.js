@@ -214,16 +214,17 @@ function groupXpLast5MonthsWithTotal(transactions) {
 
 function formatXp(value) {
   if (value >= 1_000_000_000) {
-    return Math.round(value / 1_000_000_000) + "B";
+    return (value / 1_000_000_000).toFixed(2) + "B";
   }
   if (value >= 1_000_000) {
-    return Math.round(value / 1_000_000) + "M";
+    return (value / 1_000_000).toFixed(2) + "M";
   }
   if (value >= 1_000) {
-    return Math.round(value / 1_000) + "k";
+    return (value / 1_000).toFixed(2) + "k";
   }
   return value.toString();
 }
+
 
 
 function renderXpGraph(months) {
